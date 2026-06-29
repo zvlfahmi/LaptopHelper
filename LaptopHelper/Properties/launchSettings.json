@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "LaptopHelper (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "LaptopHelper (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

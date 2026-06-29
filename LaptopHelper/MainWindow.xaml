@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="LaptopHelper.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LaptopHelper"
+    xmlns:views="using:LaptopHelper.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Window.SystemBackdrop>
+        <DesktopAcrylicBackdrop />
+    </Window.SystemBackdrop>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!--  TitleBar  -->
+            <RowDefinition Height="*" />
+            <!--  NavigationView  -->
+        </Grid.RowDefinitions>
+
+
+
+        <TitleBar
+    x:Name="titleBar"
+    BackRequested="TitleBar_BackRequested"
+    IsBackButtonVisible="{x:Bind navFrame.CanGoBack, Mode=OneWay}"
+    IsPaneToggleButtonVisible="True"
+    PaneToggleRequested="TitleBar_PaneToggleRequested" />
+
+        <NavigationView 
+    x:Name="mainNav" 
+    Grid.Row="1" 
+    SelectionChanged="mainNavSel" 
+    Loaded="mainNavLoaded" 
+    IsPaneToggleButtonVisible="False"
+    IsBackButtonVisible="Collapsed">
+
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="Play" Content="System Information" Tag="SysInfo" />
+                <NavigationViewItem Icon="Save" Content="Battery Management" Tag="BatMgt" />
+                <NavigationViewItem Icon="Refresh" Content="BIOS Settings" Tag="BiosSettings" />
+            </NavigationView.MenuItems>
+            <Frame x:Name="navFrame" />
+        </NavigationView>
+    </Grid>
+</Window>

@@ -1,0 +1,74 @@
+<Page
+    x:Class="LaptopHelper.Views.BiosSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LaptopHelper.Views"
+    xmlns:models="using:LaptopHelper.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Padding="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="16" Margin="0,0,0,24">
+            <TextBlock Text="BIOS Settings" Style="{StaticResource TitleTextBlockStyle}"/>
+            <Button x:Name="BtnRefresh" Content="Refresh" Click="BtnRefresh_Click" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Loading View -->
+        <ProgressRing x:Name="LoadingRing" 
+                      Grid.Row="1" 
+                      IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" 
+                      Visibility="{x:Bind ConvertBoolToVisibility(ViewModel.IsLoading), Mode=OneWay}"
+                      Width="48" Height="48" 
+                      HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <!-- Main Content (Windows 11 Settings-Style Cards) -->
+        <ScrollViewer Grid.Row="1" 
+                      Visibility="{x:Bind ConvertBoolToInverseVisibility(ViewModel.IsLoading), Mode=OneWay}">
+            <StackPanel Spacing="8" MaxWidth="800" HorizontalAlignment="Left" Width="600">
+
+                <ItemsControl ItemsSource="{x:Bind ViewModel.Settings}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:BiosSettingItem">
+                            <!-- Settings Card Block -->
+                            <Border Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="4"
+                                    Padding="16"
+                                    Margin="0,0,0,8">
+                                <Grid ColumnDefinitions="*,Auto">
+
+                                    <!-- Setting Description Area -->
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
+                                        <TextBlock Text="{x:Bind Name}" 
+                                                   Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                                        <TextBlock Text="{x:Bind StatusText, Mode=OneWay}" 
+                                                   Style="{StaticResource CaptionTextBlockStyle}"
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                                    </StackPanel>
+
+                                    <!-- Switch -->
+                                    <ToggleSwitch Grid.Column="1" 
+                                                  IsOn="{x:Bind IsOn, Mode=OneWay}"
+                                                  IsEnabled="{x:Bind IsControlEnabled, Mode=OneWay}"
+                                                  Toggled="ToggleSwitch_Toggled"
+                                                  OnContent="" OffContent=""
+                                                  VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
